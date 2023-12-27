@@ -1,0 +1,46 @@
+#neon{
+
+  /*border: 2px solid rgba(0, 0, 200, 0.6);*/
+  /*cursor: pointer;*/
+  /*border-radius: 10px;*/
+
+  color: white;
+  background: rgba(0, 0, 200, 0.3);
+  box-shadow: 0 0 40px rgba(0, 0, 255, 0.9);
+  /*margin-bottom: 25px;*/
+  /*font-size: 15px;*/
+  /*font-family: "helvetica neue", helvetica, sans-serif;*/
+  /*letter-spacing: 1px;*/
+  /*text-transform: uppercase;*/
+  /*text-align: center;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
+  /*width: auto;*/
+  /*padding: 3px 10px;*/
+  /*display: inline-block;*/
+
+  animation: pulse 1s infinite alternate;    /* Define a animação */
+}
+
+#neon:hover{
+
+  /*box-shadow: 0 0 20px rgba(0, 0, 255, 0.9); !* Efeito de luzes  *!*/
+  box-shadow: white;
+  color: rgba(0, 0, 255, 0.9);
+
+  /*transition: box-shadow 0.1s ease-in-out;   !* Transição suave *!*/
+  transition: color 1.0s;
+
+}
+
+@keyframes pulse {
+
+  0% {
+    box-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
+  }
+
+  100% {
+    box-shadow: 0 0 40px rgba(0, 0, 255, 0.9); /* Brilho aumentado */
+  }
+
+}
