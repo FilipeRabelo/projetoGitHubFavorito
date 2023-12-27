@@ -52,15 +52,14 @@ header{
   align-items: center;
   justify-content: space-between;
   margin: 1rem 0 2.5rem;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 header h1{
   font-size: 2rem;
   color: #7a38d4;
   text-transform: uppercase;
-
-  animation: pulse 2s infinite alternate;
+  font-weight: bold;
 }
 
 .search{
@@ -165,8 +164,6 @@ td .remove{
   cursor: pointer;
   font-size: 2rem;
   font-weight: bold;
-
-  /*animation: pulse 1s infinite alternate;*/
 }
 
 td .remove:hover{
@@ -176,9 +173,6 @@ td .remove:hover{
 .repositorio{
   color: #7a38d4;
 }
-
-
-
 
 
 
@@ -198,7 +192,7 @@ td .remove:hover{
   padding: 5px 10px 10px;
   display: block;
 
-  animation: pulse 0.8s infinite;    /* Define a animação */
+  animation: pulse 1.5s infinite alternate ease-in-out;    /* Define a animação */
 }
 
 #neon:hover{
@@ -210,8 +204,9 @@ td .remove:hover{
 @keyframes pulse {
 
   0% {
-    color: #7a38d4;
+    box-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
   }
+
 
   100% {
     color: rgba(0, 0, 255, 0.9); /* Brilho aumentado */
