@@ -9,9 +9,7 @@
       this.load();     // para carregar a funcao load
     }
 
-
     load(){  // funcao para carregar os dados
-
 
       this.entradaDados = [   // ARRAY
 
@@ -33,32 +31,22 @@
 
     }
 
-
   }
 
-
-
-
-
   export class FavoritesView extends Favorites{  // CLASS E QUE VAI CRIAR A VISUALIZAÇÃO DO HTML
-
 
     constructor(root) {  // #app
 
       super(root);       // super é a cola q uni a classe filha (cria o link entre os dois)
 
-
       this.tbody = this.root.querySelector("table tbody");
-
 
       this.update();
       // console.log(this.root)  // this.root é a div #app //
 
     }
 
-
-
-                                     // criando o html na FavoritesView
+    // criando o html na FavoritesView
 
     update(){   // função update //
 
@@ -76,14 +64,15 @@
         row.querySelector('.repositories').textContent = user.public_repos;
         row.querySelector('.followers').textContent = user.followers;
 
+        // row.querySelector('.remove').onclick = () => {
+        //   confirm('Tem certeza que deseja deletar essa linha?');         
+        // }
+
         this.tbody.append(row)  // .append() recebe um elemento html da DOM
 
       })
 
-
     }
-
-
 
     createRow(){
 
@@ -100,22 +89,17 @@
           </a>
         </td>
      
-     
         <td class="repositories">100</td><!-- COLUNAS - td -->
-        <td class="followers">65655454</td>
-          
-          
+        <td class="followers">65655454</td>        
+        
         <td>
           <button class="remove">&times</button>
         </td>        
         
       `
-
       return tr;    // tr.innerHTML = content    // para colocar o conteudo dentro do tr
 
     }
-
-
 
     removeAllTr(){   // função remove //
 
@@ -128,11 +112,7 @@
           tr.remove()
         })
 
-
     }
-
-
-
 
   }
 

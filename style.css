@@ -215,3 +215,15 @@ td .remove:hover{
   }
 
 }
+
+
+@media (max-width: 765px){
+  #app{
+    padding: 1.5rem;
+    margin: 5rem 1rem;
+  }
+  tr{
+    padding: 1rem;
+    background-color: red;
+  }
+}
