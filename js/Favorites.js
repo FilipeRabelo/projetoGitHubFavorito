@@ -1,44 +1,82 @@
-  // CLASSE QUE VAI CONTER A LOGICA DOS DADOS    // COMO OS DADOS SERÃO ESTRUTURADOS // herança
-  // CLASSE Favorites QUE MEXE COM OS DADOS
+  
+  // API 
+  
+  export class GithubUser{     
+
+    static search(username){                                       /* criando um metodo estatico - procurar o nome do usuario */
+  
+      const endpoint = `https://api.github.com/users/${username}`; // local
+
+      return fetch(endpoint)
+        .then(data => data.json())                                 // transformando os dados em json // ele vem como string
+        .then(({login, name, public_repos, followers}) => ({       // desentruturação // DATA - dados //
+          login,          // login: data.login,
+          name,           // name: data.name,
+          public_repos,   // public_repos: data.public_repos,
+          followers       // followers: data.followers          
+      }))
+
+      // retornando data (dados)
+      // fetch = buscar // then = entao(promise) //  // fetch vai retorna o objeto com os dados
+    };
+  }
+
+ 
+  /* CLASSE Favorites QUE VAI CONTER A LOGICA DOS DADOS - COMO OS DADOS SERÃO ESTRUTURADOS - HERANÇA */
 
   export class Favorites {       // CRIANDO E EXPORTANDO A CLASSE //
 
     constructor(root){          // CRIANDO O APP - ROOT // root = app
 
       this.root = document.querySelector(root)     // procurando para exsitri o tempo todo
-      this.load();                                // para carregar a funcao load
+      this.load();                                 // para carregar a funcao load
+
+      GithubUser.search('FilipeRabelo').then(user => console.log(user))  // promise user é o retono d fecth(endpoint)
 
     }
+
+
 
     load(){  // funcao para carregar os dados
 
-      // localstore é uma api do browser  //  getItem => pegar um item  //  parse modifica o objeto
-      // se JSON.parse tiver vazio -> transfoma em array 
+      this.entrieDates = JSON.parse( localStorage.getItem('@github-favorites:')) || [];  /* se JSON.parse tiver vazio -> transfoma em array */
+      
+      // console.log(this.entrieDates)
 
-      this.entrieDates = JSON.parse( localStorage.getItem('@github-favorites:')) || []; 
+      // localstore é uma api do browser    //  getItem => pegar um item  //  parse modifica o objeto
 
-      console.log(this.entrieDates)
+      // this.entrieDates = [   // ARRAY    // LISTA DE USUARIOS //
+      //   {
+      //     login: "FilipeRabelo",
+      //     name: "Filipe Rabelo",
+      //     public_repos: "340",
+      //     followers: "1200",
+      //   },
+    }
 
-      this.entrieDates = [   // ARRAY    // LISTA DE USUARIOS //
-        {
-          login: "FilipeRabelo",
-          name: "Filipe Rabelo",
-          public_repos: "340",
-          followers: "1200",
-        },
-        {
-          login: "FilipeRabelo",
-          name: "Filipe Rabelo",
-          public_repos: "340",
-          followers: "1200",
+
+
+
+    async add(username){                                  // precisar ir buscar o usuario no github   // ASSINCRONISMO //
+
+      // TRATAMENTO DE ERROR // 
+      try{                                                // tente fazer
+        const user = await GithubUser.search(username);   // aguardando a promise terminar
+        // console.log(user)
+
+        if(user.login === undefined){
+          throw new Error("Usuario não encontrado!")       // Disparar uma msg de Error
         }
-      ]
+
+        this.entrieDates = [user, ...this.entrieDates];   // user = novo usuario - ...this.entrieDate trazendo os outros usuarios
+
+      }catch(error){                                      // capture o erro 
+        alert(error.message);
+      }
 
     }
 
-    // função de ordem superior 
-    // higher-order function (map, filter, find, reduce...)
-    // principio da imutabilidade
+
 
     delete(user){   // BOTÃO DE ESCLUIR //
       
@@ -47,29 +85,43 @@
 
       this.entrieDates = filteredEntries; // estou limpando todo o array entrieDates ecolocando um novo array dentro do entrieDate //
       this.update()      
+
+      // função de ordem superior 
+      // higher-order function (map, filter, find, reduce...)
+      // principio da imutabilidade
     }
 
-    // guardar os dados no localstorege //
-
-
-
-  }     /* FIM CLASSE FAVORITOS */
+  } /* FIM CLASSE - guardar os dados no localstorege */
 
   
-  export class FavoritesView extends Favorites{  // CLASS E QUE VAI CRIAR A VISUALIZAÇÃO DO HTML
+ 
+  export class FavoritesView extends Favorites{  // CLASS VIEW - DOM - ESSA PARTE CUIDA DA PARTE DE VISUALIZAÇÃO DO HTML 
+                                                 
+    constructor(root) {                          // #app  // this.root é a div #app //
 
-    constructor(root) {  // #app  // this.root é a div #app //
-
-      super(root);       // super é a cola q uni a classe filha (cria o link entre os dois)
+      super(root);                               // super é a cola q uni a classe filha (cria o link entre os dois)
 
       this.tbody = this.root.querySelector("table tbody");
       this.update();
-      // console.log(this.root)  
+      this.onadd();                              // PARA JA RODAR NO COMEÇO //
+
     }
 
-    // criando o html na FavoritesView  // função update //
+    onadd(){
 
-    update(){   
+      const addButton   = this.root.querySelector('.search button')
+
+      addButton.onclick = () => {        
+        const {value} =  this.root.querySelector('.search input') // pegando o valor do input
+        // console.dir(value)
+
+        this.add(value)
+      }
+    }
+
+
+
+    update(){                               // criando o html na FavoritesView  // função update //
 
       this.removeAllTr();
       this.entrieDates.forEach( user => {  // para cada usuario quero rodar uma funcao
